@@ -1,0 +1,27 @@
+# Environment variables — never commit real credentials
+.env.local
+.env.*.local
+*.local
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Supabase local dev
+.supabase/
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
