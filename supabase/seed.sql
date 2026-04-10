@@ -1,0 +1,29 @@
+-- ============================================================
+-- Seed File — LOCAL DEVELOPMENT ONLY
+-- This file is NOT run in production.
+-- ============================================================
+--
+-- Profiles are created automatically by the handle_new_user() trigger
+-- whenever a user signs up via Supabase Auth.
+--
+-- To create a test profile manually:
+-- 1. Go to Supabase Dashboard → Authentication → Users → Add user
+-- 2. Create a user with email/password (e.g. test@mamaeapp.dev)
+-- 3. The trigger will auto-insert a row into public.profiles
+--
+-- If you need to insert a profile row directly (e.g. for SQL testing),
+-- uncomment and adapt the example below. Replace the UUID with the
+-- actual user ID from auth.users:
+--
+-- insert into public.profiles (id, email, full_name)
+-- values (
+--   '00000000-0000-0000-0000-000000000001',
+--   'test@mamaeapp.dev',
+--   'Usuária Teste'
+-- )
+-- on conflict (id) do nothing;
+--
+-- NOTE: The above will only work if the UUID already exists in auth.users
+-- (profiles.id has a foreign key to auth.users.id).
+
+select 'Seed file — no automatic data inserted. Profiles are created by trigger.' as info;
