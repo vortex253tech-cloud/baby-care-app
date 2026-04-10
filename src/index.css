@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Prevent font size inflation on mobile */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased;
+    /* Support dark mode at OS level */
+  }
+
+  /* Dark mode base */
+  .dark body {
+    @apply bg-gray-950 text-gray-50;
+  }
+
+  /* Safe area padding for iOS notch / Android gesture bar */
+  #root {
+    @apply min-h-screen;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@layer utilities {
+  /* Touch target minimum size for mobile — WCAG 2.5.5 */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
