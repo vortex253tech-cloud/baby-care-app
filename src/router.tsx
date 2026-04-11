@@ -10,6 +10,9 @@ import { RegisterPage } from '@/pages/auth/RegisterPage'
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
 import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
 
+// Onboarding pages
+import { BabyOnboardingPage } from '@/pages/onboarding/BabyOnboardingPage'
+
 // App pages
 import { DashboardPage } from '@/pages/DashboardPage'
 import { FeedPage } from '@/pages/FeedPage'
@@ -52,6 +55,14 @@ export const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
+      // Onboarding: auth required, no bottom nav
+      {
+        element: <AuthLayout />,
+        children: [
+          { path: '/onboarding/baby', element: <BabyOnboardingPage /> },
+        ],
+      },
+      // Main app: auth required + has baby
       {
         element: <AppShell />,
         children: [

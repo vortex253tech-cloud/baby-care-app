@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { useBabies } from '@/hooks/useBabies'
+import { BabySwitcher } from '@/components/baby/BabySwitcher'
 
 interface TopBarProps {
   title?: string
@@ -8,10 +10,12 @@ interface TopBarProps {
 /**
  * Top navigation bar for authenticated pages.
  * Shows optional back button and page title.
+ * When the user has 2+ babies, the center shows the BabySwitcher.
  * Height: 56px (standard mobile top bar)
  */
 export function TopBar({ title = 'MamãeApp', showBack = false }: TopBarProps) {
   const navigate = useNavigate()
+  const { babies, activeBaby, setActiveBaby } = useBabies()
 
   return (
     <header className="sticky top-0 z-40 h-14 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center px-4 gap-3">
@@ -26,9 +30,20 @@ export function TopBar({ title = 'MamãeApp', showBack = false }: TopBarProps) {
           </svg>
         </button>
       )}
-      <h1 className="text-base font-semibold text-gray-900 dark:text-white flex-1">
-        {title}
-      </h1>
+
+      <div className="flex-1 flex items-center">
+        {babies.length >= 2 && activeBaby ? (
+          <BabySwitcher
+            babies={babies}
+            activeBaby={activeBaby}
+            onSelect={setActiveBaby}
+          />
+        ) : (
+          <h1 className="text-base font-semibold text-gray-900 dark:text-white">
+            {title}
+          </h1>
+        )}
+      </div>
     </header>
   )
 }

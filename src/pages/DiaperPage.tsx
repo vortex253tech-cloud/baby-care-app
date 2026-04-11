@@ -1,3 +1,8 @@
 export function DiaperPage() {
-  return <div className="p-4"><h2 className="text-xl font-semibold">Fraldas</h2><p className="text-sm text-gray-500 mt-2">Phase 3</p></div>
+  return (
+    <div className="py-4">
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">💧 Fralda</h2>
+      <p className="text-sm text-gray-500 mt-2">Registro de fraldas — disponível na Fase 3.</p>
+    </div>
+  )
 }

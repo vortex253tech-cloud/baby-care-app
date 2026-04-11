@@ -178,3 +178,39 @@ supabase/migrations/
 
 Run each new migration in Supabase SQL Editor in order, or use the Supabase CLI
 (`supabase db push`) once the project is linked.
+
+---
+
+## Phase 2 — Run Migrations
+
+After completing the Phase 1 setup above, run the following migrations in order.
+
+### Migration 0003 — babies table
+
+1. In your project dashboard, go to **SQL Editor → New Query**.
+2. Paste the full contents of `supabase/migrations/0003_babies_table.sql` and click **Run**.
+
+**Verify:**
+- Go to **Table Editor** → you should see a `babies` table with columns:
+  `id`, `user_id`, `name`, `birth_date`, `sex`, `avatar_url`, `created_at`, `updated_at`
+- Go to **Authentication → Policies** → `babies` should show 4 policies:
+  `Users can view their own babies`, `Users can insert their own babies`,
+  `Users can update their own babies`, `Users can delete their own babies`
+- The RLS toggle for `babies` should be **ON**.
+- The `babies_updated_at` trigger should exist (reuses `set_updated_at` from 0001).
+
+### Migration 0004 — storage bucket + policies
+
+1. Open a new query tab, paste the contents of `supabase/migrations/0004_storage_policies.sql` and click **Run**.
+
+**Verify:**
+- Go to **Storage** → you should see a `baby-photos` bucket with **Public** enabled.
+- Go to **Storage → Policies** → `baby-photos` bucket should show 4 policies:
+  `Users can upload baby photos`, `Users can read their own baby photos`,
+  `Users can update their own baby photos`, `Users can delete their own baby photos`
+- File size limit is **5 MB**; allowed MIME types are `image/jpeg`, `image/png`, `image/webp`.
+
+> **Note:** The bucket is public (`public = true`) so that `getPublicUrl()` returns
+> stable CDN URLs without requiring signed-token refresh. Object paths are namespaced
+> per user via `{user_id}/{filename}` so cross-user access is still prevented by the
+> storage policies.

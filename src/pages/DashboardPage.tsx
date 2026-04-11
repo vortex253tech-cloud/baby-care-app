@@ -1,9 +1,26 @@
-// Full implementation in Phase 2
+import { useBabies } from '@/hooks/useBabies'
+import { BabyHeader } from '@/components/dashboard/BabyHeader'
+import { QuickActions } from '@/components/dashboard/QuickActions'
+import { DailySummary } from '@/components/dashboard/DailySummary'
+import { NextReminders } from '@/components/dashboard/NextReminders'
+import { FullScreenSpinner } from '@/components/ui/FullScreenSpinner'
+
 export function DashboardPage() {
+  const { activeBaby, loading } = useBabies()
+
+  if (loading) return <FullScreenSpinner />
+  if (!activeBaby) return null  // ProtectedRoute handles redirect
+
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Dashboard</h2>
-      <p className="text-sm text-gray-500 mt-2">Resumo do dia aparece aqui — Phase 2</p>
+    <div className="flex flex-col gap-4 pb-4 px-4 pt-4">
+      <BabyHeader baby={activeBaby} />
+      <QuickActions />
+      <DailySummary
+        lastFeed={null}
+        sleepHoursToday={null}
+        diapersToday={null}
+      />
+      <NextReminders reminders={null} />
     </div>
   )
 }
