@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/Button'
 interface Reminder {
   id: string
   label: string
-  time: string
+  urgency: 'high' | 'normal'
 }
 
 interface NextRemindersProps {
@@ -23,12 +23,20 @@ export function NextReminders({ reminders }: NextRemindersProps) {
           {reminders.map((reminder) => (
             <div
               key={reminder.id}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm flex items-center justify-between"
+              className={`rounded-2xl p-4 shadow-sm flex items-center gap-3 ${
+                reminder.urgency === 'high'
+                  ? 'bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800'
+                  : 'bg-white dark:bg-gray-800'
+              }`}
             >
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+              <span className="text-xl">{reminder.urgency === 'high' ? '🍼' : '🔔'}</span>
+              <span className={`text-sm font-medium ${
+                reminder.urgency === 'high'
+                  ? 'text-red-700 dark:text-red-300'
+                  : 'text-gray-900 dark:text-white'
+              }`}>
                 {reminder.label}
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">{reminder.time}</span>
             </div>
           ))}
         </div>
@@ -39,10 +47,10 @@ export function NextReminders({ reminders }: NextRemindersProps) {
           </div>
           <div>
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Nenhum lembrete ativo
+              Sem lembretes no momento
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
-              Configure lembretes para receber alertas
+              Alertas aparecerão aqui conforme os registros
             </p>
           </div>
           <Button variant="ghost" size="sm">

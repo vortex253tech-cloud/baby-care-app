@@ -214,3 +214,24 @@ After completing the Phase 1 setup above, run the following migrations in order.
 > stable CDN URLs without requiring signed-token refresh. Object paths are namespaced
 > per user via `{user_id}/{filename}` so cross-user access is still prevented by the
 > storage policies.
+
+---
+
+## Phase 3 — Run Migration 0005
+
+After completing Phase 2 setup, run the following migration.
+
+### Migration 0005 — trackers schema (feedings, sleeps, diapers)
+
+1. In your project dashboard, go to **SQL Editor → New Query**.
+2. Paste the full contents of `supabase/migrations/0005_trackers_schema.sql` and click **Run**.
+
+**Verify:**
+- Go to **Table Editor** → you should see three new tables:
+  `feedings`, `sleeps`, `diapers`
+- Each table should have RLS **ON** and a single permissive policy:
+  `Users manage their feedings` / `Users manage their sleeps` / `Users manage their diapers`
+- Each table should have a `*_updated_at` trigger and a `*_baby_started_idx` / `*_baby_changed_idx` index.
+- `feedings.type` is constrained to `breast | bottle | solid`
+- `sleeps.ended_at` nullable (null = baby currently sleeping)
+- `diapers.type` is constrained to `wet | dirty | both`

@@ -1,18 +1,26 @@
 import { SummaryCard } from '@/components/dashboard/SummaryCard'
 
 interface DailySummaryProps {
-  lastFeed?: { minutesAgo: number; side?: string } | null
+  lastFeed?: { minutesAgo: number } | null
   sleepHoursToday?: number | null
   diapersToday?: number | null
 }
 
+function formatFeedAgo(minutesAgo: number): string {
+  if (minutesAgo < 60) return `${minutesAgo}min atrás`
+  const h = Math.floor(minutesAgo / 60)
+  const m = minutesAgo % 60
+  return m > 0 ? `${h}h ${m}min atrás` : `${h}h atrás`
+}
+
 export function DailySummary({ lastFeed, sleepHoursToday, diapersToday }: DailySummaryProps) {
-  const feedValue = lastFeed ? `${lastFeed.minutesAgo}min atrás` : '—'
-  const feedSubValue = lastFeed?.side
-
-  const sleepValue = sleepHoursToday != null ? `${sleepHoursToday.toFixed(1)}h hoje` : '—'
-
-  const diapersValue = diapersToday != null ? `${diapersToday} hoje` : '—'
+  const feedValue = lastFeed ? formatFeedAgo(lastFeed.minutesAgo) : '—'
+  const sleepValue = sleepHoursToday != null && sleepHoursToday > 0
+    ? `${sleepHoursToday.toFixed(1)}h hoje`
+    : '—'
+  const diapersValue = diapersToday != null && diapersToday > 0
+    ? `${diapersToday} hoje`
+    : '—'
 
   return (
     <section>
@@ -24,7 +32,6 @@ export function DailySummary({ lastFeed, sleepHoursToday, diapersToday }: DailyS
           icon="🤱"
           label="Última mamada"
           value={feedValue}
-          subValue={feedSubValue}
           color="bg-pink-100 text-pink-500"
         />
         <SummaryCard
