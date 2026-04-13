@@ -1,13 +1,18 @@
-import { Button } from '@/components/ui/Button'
+import { Link } from 'react-router-dom'
 
 interface Reminder {
   id: string
   label: string
   urgency: 'high' | 'normal'
+  fireAt: string
 }
 
 interface NextRemindersProps {
   reminders?: Array<Reminder> | null
+}
+
+function formatFireAt(iso: string): string {
+  return new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
 }
 
 export function NextReminders({ reminders }: NextRemindersProps) {
@@ -29,13 +34,18 @@ export function NextReminders({ reminders }: NextRemindersProps) {
                   : 'bg-white dark:bg-gray-800'
               }`}
             >
-              <span className="text-xl">{reminder.urgency === 'high' ? '🍼' : '🔔'}</span>
-              <span className={`text-sm font-medium ${
+              <span className="text-xl flex-shrink-0">
+                {reminder.urgency === 'high' ? '🔴' : '🔔'}
+              </span>
+              <span className={`flex-1 text-sm font-medium ${
                 reminder.urgency === 'high'
                   ? 'text-red-700 dark:text-red-300'
                   : 'text-gray-900 dark:text-white'
               }`}>
                 {reminder.label}
+              </span>
+              <span className="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">
+                {formatFireAt(reminder.fireAt)}
               </span>
             </div>
           ))}
@@ -53,9 +63,12 @@ export function NextReminders({ reminders }: NextRemindersProps) {
               Alertas aparecerão aqui conforme os registros
             </p>
           </div>
-          <Button variant="ghost" size="sm">
-            Configurar
-          </Button>
+          <Link
+            to="/notifications"
+            className="text-xs text-indigo-600 dark:text-indigo-400 font-medium"
+          >
+            Configurar →
+          </Link>
         </div>
       )}
     </section>

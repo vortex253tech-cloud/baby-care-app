@@ -77,6 +77,25 @@ export interface Diaper {
   updated_at: string
 }
 
+// Reminder row from the `reminders` table
+export interface Reminder {
+  id: string
+  user_id: string
+  baby_id: string
+  type: 'feeding' | 'medication' | 'vaccine'
+  label: string
+  enabled: boolean
+  interval_hours: number | null
+  next_fire_at: string | null
+  silence_start: string | null
+  silence_end: string | null
+  medication_dose: string | null
+  vaccine_id: string | null
+  vaccine_date: string | null
+  created_at: string
+  updated_at: string
+}
+
 // Route meta
 export type AppRoute =
   | '/login'
@@ -88,5 +107,6 @@ export type AppRoute =
   | '/feed'
   | '/sleep'
   | '/diaper'
+  | '/notifications'
   | '/profile'
   | '/settings'

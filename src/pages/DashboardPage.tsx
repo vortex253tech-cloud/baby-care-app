@@ -13,12 +13,10 @@ export function DashboardPage() {
   if (loading) return <FullScreenSpinner />
   if (!activeBaby) return null
 
-  const reminders = dashData.hungerAlertMinutes !== null
-    ? [{
-        id: 'hunger',
-        label: `Última mamada há ${Math.floor(dashData.hungerAlertMinutes / 60)}h ${dashData.hungerAlertMinutes % 60}min — hora de mamar?`,
-        urgency: 'high' as const,
-      }]
+  // Use scheduled reminders from the reminders table.
+  // upcomingReminders already includes urgency based on <= 30 min threshold.
+  const reminders = dashData.upcomingReminders.length > 0
+    ? dashData.upcomingReminders
     : null
 
   return (

@@ -10,13 +10,16 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: false, // We manage manifest.json manually in /public
       workbox: {
-        // Will be expanded in Phase 9. For now, minimal SW.
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [],
+        // Import push event handlers into the generated SW
+        importScripts: ['/sw-push.js'],
       },
       devOptions: {
-        enabled: false, // Disable SW in dev to avoid caching issues
+        enabled: true, // Enable SW in dev to allow push permission testing
+        type: 'module',
       },
+      injectRegister: 'auto',
     }),
   ],
   resolve: {

@@ -18,6 +18,7 @@ import { DashboardPage } from '@/pages/DashboardPage'
 import { FeedPage } from '@/pages/FeedPage'
 import { SleepPage } from '@/pages/SleepPage'
 import { DiaperPage } from '@/pages/DiaperPage'
+import NotificationsPage from '@/pages/NotificationsPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
@@ -70,6 +71,7 @@ export const router = createBrowserRouter([
           { path: '/feed', element: <FeedPage /> },
           { path: '/sleep', element: <SleepPage /> },
           { path: '/diaper', element: <DiaperPage /> },
+          { path: '/notifications', element: <NotificationsPage /> },
           { path: '/profile', element: <ProfilePage /> },
         ],
       },

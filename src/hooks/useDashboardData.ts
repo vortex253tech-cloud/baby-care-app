@@ -2,11 +2,19 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Feeding, Sleep } from '@/types'
 
+export interface UpcomingReminder {
+  id: string
+  label: string
+  fireAt: string          // ISO string
+  urgency: 'high' | 'normal'
+}
+
 export interface DashboardData {
   lastFeed: { minutesAgo: number } | null
   sleepHoursToday: number
   diapersToday: number
-  hungerAlertMinutes: number | null  // null = no alert; number = minutes since last feed (>= 180)
+  hungerAlertMinutes: number | null  // >= 180 triggers visual alert
+  upcomingReminders: UpcomingReminder[]
 }
 
 export function useDashboardData(babyId: string) {
@@ -15,6 +23,7 @@ export function useDashboardData(babyId: string) {
     sleepHoursToday: 0,
     diapersToday: 0,
     hungerAlertMinutes: null,
+    upcomingReminders: [],
   })
   const [loading, setLoading] = useState(true)
 
@@ -25,7 +34,11 @@ export function useDashboardData(babyId: string) {
     todayStart.setHours(0, 0, 0, 0)
     const todayIso = todayStart.toISOString()
 
-    const [feedRes, sleepRes, diaperRes] = await Promise.all([
+    const now = new Date()
+    const in24h = new Date(now.getTime() + 24 * 60 * 60 * 1000)
+    const in30min = new Date(now.getTime() + 30 * 60 * 1000)
+
+    const [feedRes, sleepRes, diaperRes, reminderRes] = await Promise.all([
       supabase
         .from('feedings')
         .select('started_at')
@@ -45,6 +58,17 @@ export function useDashboardData(babyId: string) {
         .select('id')
         .eq('baby_id', babyId)
         .gte('changed_at', todayIso),
+
+      supabase
+        .from('reminders')
+        .select('id, label, next_fire_at, type')
+        .eq('baby_id', babyId)
+        .eq('enabled', true)
+        .not('next_fire_at', 'is', null)
+        .gte('next_fire_at', now.toISOString())
+        .lte('next_fire_at', in24h.toISOString())
+        .order('next_fire_at', { ascending: true })
+        .limit(5),
     ])
 
     // Last feed
@@ -71,7 +95,15 @@ export function useDashboardData(babyId: string) {
     // Diapers today
     const diapersToday = (diaperRes.data ?? []).length
 
-    setData({ lastFeed, sleepHoursToday, diapersToday, hungerAlertMinutes })
+    // Upcoming reminders
+    const upcomingReminders: UpcomingReminder[] = (reminderRes.data ?? []).map((r) => ({
+      id: r.id as string,
+      label: r.label as string,
+      fireAt: r.next_fire_at as string,
+      urgency: new Date(r.next_fire_at as string) <= in30min ? 'high' : 'normal',
+    }))
+
+    setData({ lastFeed, sleepHoursToday, diapersToday, hungerAlertMinutes, upcomingReminders })
     setLoading(false)
   }, [babyId])
 
