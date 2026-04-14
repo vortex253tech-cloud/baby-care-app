@@ -96,6 +96,28 @@ export interface Reminder {
   updated_at: string
 }
 
+// BabyMilestone row from the `baby_milestones` table
+export interface BabyMilestone {
+  id: string
+  user_id: string
+  baby_id: string
+  milestone_id: string        // matches MilestoneDefinition.id
+  achieved_at: string         // ISO date 'YYYY-MM-DD'
+  photo_url: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+// SavedTip row from the `saved_tips` table
+export interface SavedTip {
+  id: string
+  user_id: string
+  baby_id: string
+  tip_id: string              // matches Tip.id
+  saved_at: string
+}
+
 // Route meta
 export type AppRoute =
   | '/login'
@@ -108,5 +130,7 @@ export type AppRoute =
   | '/sleep'
   | '/diaper'
   | '/notifications'
+  | '/milestones'
+  | '/tips'
   | '/profile'
   | '/settings'

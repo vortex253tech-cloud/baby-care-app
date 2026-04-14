@@ -19,7 +19,9 @@ import { FeedPage } from '@/pages/FeedPage'
 import { SleepPage } from '@/pages/SleepPage'
 import { DiaperPage } from '@/pages/DiaperPage'
 import NotificationsPage from '@/pages/NotificationsPage'
+import MilestonesPage from '@/pages/MilestonesPage'
 import { ProfilePage } from '@/pages/ProfilePage'
+import TipsPage from '@/pages/TipsPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
 export const router = createBrowserRouter([
@@ -72,6 +74,8 @@ export const router = createBrowserRouter([
           { path: '/sleep', element: <SleepPage /> },
           { path: '/diaper', element: <DiaperPage /> },
           { path: '/notifications', element: <NotificationsPage /> },
+          { path: '/milestones', element: <MilestonesPage /> },
+          { path: '/tips', element: <TipsPage /> },
           { path: '/profile', element: <ProfilePage /> },
         ],
       },

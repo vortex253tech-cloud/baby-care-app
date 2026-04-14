@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useBabies } from '@/hooks/useBabies'
 import { useDashboardData } from '@/hooks/useDashboardData'
 import { BabyHeader } from '@/components/dashboard/BabyHeader'
@@ -29,6 +30,21 @@ export function DashboardPage() {
         diapersToday={dashData.diapersToday}
       />
       <NextReminders reminders={reminders} />
+
+      {/* Tips card */}
+      <Link
+        to="/tips"
+        className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-2xl p-4 border border-pink-100 dark:border-pink-800 flex items-center gap-3"
+      >
+        <span className="text-2xl">💡</span>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">Dicas para você</p>
+          <p className="text-xs text-gray-400 truncate">Conteúdo selecionado para a idade de {activeBaby.name}</p>
+        </div>
+        <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </Link>
     </div>
   )
 }
