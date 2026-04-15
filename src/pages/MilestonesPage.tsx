@@ -25,6 +25,12 @@ export default function MilestonesPage() {
   const [view, setView] = useState<'list' | 'timeline'>('list')
   const [timelineFilter, setTimelineFilter] = useState<AgeBand | 'all'>('all')
 
+  // Must be before any early returns (Rules of Hooks)
+  const milestoneMap = useMemo(
+    () => Object.fromEntries(MILESTONES.map((m) => [m.id, m])),
+    []
+  )
+
   if (!activeBaby) return (
     <div className="p-4 text-sm text-gray-500 dark:text-gray-400">Nenhum bebê selecionado.</div>
   )
@@ -36,12 +42,6 @@ export default function MilestonesPage() {
 
   // Display all bands, but show current band expanded by default
   const activeBandDisplay = selectedBand ?? currentBand ?? '0-1m'
-
-  // Milestone map for timeline
-  const milestoneMap = useMemo(
-    () => Object.fromEntries(MILESTONES.map((m) => [m.id, m])),
-    []
-  )
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
