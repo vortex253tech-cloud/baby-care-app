@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { TopBar } from './TopBar'
 import { BottomNav } from './BottomNav'
+import { SOSButton } from '@/components/sos/SOSButton'
 
 interface AppShellProps {
   title?: string
@@ -9,8 +10,7 @@ interface AppShellProps {
 
 /**
  * Layout wrapper for all authenticated pages.
- * Provides: TopBar (sticky) + scrollable content area + BottomNav (fixed).
- * The content area has pb-20 to prevent content from hiding behind the bottom nav.
+ * Provides: TopBar (sticky) + scrollable content area + BottomNav (fixed) + SOS FAB.
  */
 export function AppShell({ title, showBack }: AppShellProps) {
   return (
@@ -20,6 +20,7 @@ export function AppShell({ title, showBack }: AppShellProps) {
         <Outlet />
       </main>
       <BottomNav />
+      <SOSButton />
     </div>
   )
 }

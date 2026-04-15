@@ -22,6 +22,10 @@ import NotificationsPage from '@/pages/NotificationsPage'
 import MilestonesPage from '@/pages/MilestonesPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 import TipsPage from '@/pages/TipsPage'
+import GuidePage from '@/pages/GuidePage'
+import GuideArticlePage from '@/pages/GuideArticlePage'
+import TimelinePage from '@/pages/TimelinePage'
+import StatsPage from '@/pages/StatsPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
 export const router = createBrowserRouter([
@@ -76,6 +80,10 @@ export const router = createBrowserRouter([
           { path: '/notifications', element: <NotificationsPage /> },
           { path: '/milestones', element: <MilestonesPage /> },
           { path: '/tips', element: <TipsPage /> },
+          { path: '/guide', element: <GuidePage /> },
+          { path: '/guide/:slug', element: <GuideArticlePage /> },
+          { path: '/timeline', element: <TimelinePage /> },
+          { path: '/stats', element: <StatsPage /> },
           { path: '/profile', element: <ProfilePage /> },
         ],
       },
